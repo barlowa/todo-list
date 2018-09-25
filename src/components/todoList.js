@@ -45,6 +45,7 @@ class TodoList extends React.Component {
             />
           )
         })}
+        <div>{this.state.todos.filter(todo => !todo.complete).length} Things left to do</div>
        </div>
     );//return
   }//render

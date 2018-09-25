@@ -20,8 +20,12 @@ class TodoList extends React.Component {
         <TodoForm 
           onSubmit={this.addTodo}
         />
-        {JSON.stringify(this.state.todos)}
-      </div>
+        {this.state.todos.map(todo =>{
+          return(
+            <div key = {todo.id}>{todo.text}</div>
+          )
+        })}
+       </div>
     );//return
   }//render
 }//component

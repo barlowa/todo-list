@@ -21,6 +21,9 @@ class TodoForm extends React.Component {
       complete: false, 
       text: this.state.text
     })
+    this.setState({
+      text:'',
+    })
   }
 
   render (){
@@ -33,6 +36,7 @@ class TodoForm extends React.Component {
             onChange={this.handleChange}
             placeholder={'to do list'}
           />
+          <button onClick={this.handleSubmit}>Add to list</button>
         </form>
       </div>
     )//return

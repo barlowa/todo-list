@@ -8,7 +8,6 @@ class TestComponent extends React.Component {
 
   componentDidMount(){
     this.props.testAction()
-
   }
 
   render (){

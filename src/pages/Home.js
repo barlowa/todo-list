@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { testAction } from '../actions/globalActions'
+import TodoList from '../components/todoList'
 
 
 class Home extends React.Component{
-  componentDidMount(){
-    this.props.testAction()
-  }
+
   render(){
     return (
       <div>
         hi, home page
+        <TodoList />
       </div>
     );//return
   }//render

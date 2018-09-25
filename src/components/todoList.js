@@ -41,7 +41,12 @@ class TodoList extends React.Component {
     this.setState({
       todos : this.state.todos.filter(todo => todo.id !== id)
     })
+  }
 
+  removeCompletedItems = () =>{
+    this.setState({
+      todos : this.state.todos.filter(todo => !todo.complete)//filter keeps the items with a ! that arent true. 
+    })
   }
 
   render (){
@@ -76,6 +81,11 @@ class TodoList extends React.Component {
         <button onClick ={ () => this.updateTodoToShow('all')}>All</button>
         <button onClick ={ () => this.updateTodoToShow('active')}>Active</button>
         <button onClick ={ () => this.updateTodoToShow('complete')}>Complete</button>
+        {this.state.todos.some (todo => todo.complete) ? //reason why some is used instead of filter, some exits earlier than filter.
+          <button onClick ={ () => this.removeCompletedItems()}>Remove Completed</button>
+        : null
+        }
+        
       </div>
     );//return
   }//render

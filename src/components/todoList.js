@@ -5,7 +5,8 @@ import Todo from '../components/todo'
 class TodoList extends React.Component {
 
   state = {
-    todos : []
+    todos : [],
+    todosToShow:'all'
   }
 
   addTodo = (todo) =>{
@@ -30,23 +31,52 @@ class TodoList extends React.Component {
     })
   }
 
+  updateTodoToShow = (filter) =>{
+    this.setState({
+      todosToShow : filter
+    })
+  }
+
+  handleDelete = (id) =>{
+    this.setState({
+      todos : this.state.todos.filter(todo => todo.id !== id)
+    })
+
+  }
+
   render (){
+    let todos = []
+
+    if(this.state.todosToShow === 'all'){
+      todos = this.state.todos
+    }else if (this.state.todosToShow === 'active'){
+      todos = this.state.todos.filter(todo => !todo.complete)
+    }else if (this.state.todosToShow === 'complete'){
+      todos = this.state.todos.filter(todo => todo.complete)
+    }
+
     return(
       <div>
         <TodoForm 
           onSubmit={this.addTodo}
         />
-        {this.state.todos.map(todo =>{
+        {todos.map(todo =>{
           return(
             <Todo 
               key = {todo.id}
-              todo={todo}
+              todo = {todo}
               toggleComplete = { () =>this.toggleComplete(todo.id) }//lamda function to pass in parameter in the map into function prop.
+              onDelete = { () => this.handleDelete(todo.id)}
             />
           )
         })}
+
         <div>{this.state.todos.filter(todo => !todo.complete).length} Things left to do</div>
-       </div>
+
+        <button onClick ={ () => this.updateTodoToShow('all')}>All</button>
+        <button onClick ={ () => this.updateTodoToShow('active')}>Active</button>
+        <button onClick ={ () => this.updateTodoToShow('complete')}>Complete</button>
+      </div>
     );//return
   }//render
 }//component

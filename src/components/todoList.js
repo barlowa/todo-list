@@ -6,18 +6,19 @@ class TodoList extends React.Component {
 
   state = {
     todos : [],
-    todosToShow:'all'
+    todosToShow:'all',
+    toggleAllComplete: true,
   }
 
   addTodo = (todo) =>{
-    this.setState({
-      todos: [todo, ...this.state.todos]
-    })
+    this.setState(state =>({
+      todos: [todo, ...state.todos]
+    }))
   }
 
   toggleComplete = (id) =>{ 
-    this.setState({
-      todos: this.state.todos.map(todo =>{
+    this.setState(state => ({//using function within setState when using state, because setState is async and causes rerender
+      todos: state.todos.map(todo =>{
         //mapping through the whole array and finding matching id value.
         if(todo.id === id){
           return{
@@ -28,7 +29,7 @@ class TodoList extends React.Component {
           return todo //if the id doesnt match, just returns the todo. 
         }
       })
-    })
+    }))
   }
 
   updateTodoToShow = (filter) =>{
@@ -38,15 +39,15 @@ class TodoList extends React.Component {
   }
 
   handleDelete = (id) =>{
-    this.setState({
-      todos : this.state.todos.filter(todo => todo.id !== id)
-    })
+    this.setState(state => ({
+      todos : state.todos.filter(todo => todo.id !== id)
+    }))
   }
 
   removeCompletedItems = () =>{
-    this.setState({
-      todos : this.state.todos.filter(todo => !todo.complete)//filter keeps the items with a ! that arent true. 
-    })
+    this.setState(state => ({
+      todos : state.todos.filter(todo => !todo.complete)//filter keeps the items with a ! that arent true. 
+    }))
   }
 
   render (){
@@ -85,6 +86,23 @@ class TodoList extends React.Component {
           <button onClick ={ () => this.removeCompletedItems()}>Remove Completed</button>
         : null
         }
+        <button
+          onClick={ () => //inline lamda function
+            this.setState( state => ({ 
+              todos : state.todos.map(todo => ({
+                ...todo,
+                complete: state.toggleComplete
+              })),
+              toggleComplete: !state.toggleComplete
+
+            })
+
+            )
+          }
+        > 
+          toggleAllComplete
+        </button>
+
         
       </div>
     );//return
